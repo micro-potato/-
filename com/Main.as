@@ -8,6 +8,10 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.net.URLRequest;
+	import flash.display.StageScaleMode;
+	import flash.display.StageDisplayState;
+	import flash.geom.Rectangle;
+	import flash.system.fscommand;
 	
 	
 	public class Main extends BaseMovie {
@@ -16,6 +20,7 @@
 		private var _currentLvName:String;
 		private var _record:Object;//result,["lv1",1]
 		private var _farEndSuccessLvName:String;
+		private var _currentLan:String = "cn";
 		
 		public static var Instance:Main;
 		public function Main() {
@@ -24,20 +29,47 @@
 		
 		override protected function Init():void 
 		{
+
+			stage.displayState = StageDisplayState.FULL_SCREEN;
+			stage.scaleMode = StageScaleMode.EXACT_FIT;
+			stage.addEventListener(MouseEvent.CLICK, OnExitClick);
+			
 			super.Init();
 			Instance = this;
-			_lvs = ["lv1", "lv2", "lv3", "lv4", "lv5"];
+			_lvs = ["Lv1", "Lv2", "Lv3", "Lv4", "Lv5"];
 			EventMaster.getInstance().addEventListener(EventMaster.OnHomeClick, OnHomeBtnClick);
-			ChangeScene(new MC_Start());
+			var _startMC:MovieClip = new MC_Start();
+			ChangeScene(_startMC);
 			
 			//test
-			//LoadLv(3);
+			//LoadLv(2);
+		}
+		
+		function OnExitClick(e:MouseEvent):void 
+		{
+			e.stopPropagation();
+			trace("try exit");
+			var exitRec:Rectangle = new Rectangle(0, 1080 - 120, 120, 120);
+			//trace("exitRec=" + exitRec);
+			if (exitRec.contains(e.stageX, e.stageY))
+			{
+				//trace("stage L" + e.stageX+","+e.stageY);
+				trace("exit zone");
+				fscommand("quit");
+			}
+		}
+		
+		public function set Lan(value:String):void 
+		{
+			_currentLan = value;
+			trace(_currentLan);
 		}
 		
 		public function ChangeScene(mc:MovieClip)
 		{
 			this.removeChildren();
 			this.addChild(mc);
+			trace("add:"+mc);
 		}
 		
 		public function OnStart()
@@ -47,7 +79,8 @@
 		
 		function LoadOpenning():void 
 		{
-			var path:String = "Opening.swf";
+			var path:String = _currentLan + "\\Opening.swf";
+			trace(path);
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, OnOpeningLoaded);
 			loader.load(new URLRequest(path));
@@ -64,7 +97,7 @@
 		
 		function OnOpeningFinish(e:Event):void 
 		{
-			trace("check openning");
+			//trace("check openning");
 			e.currentTarget.removeEventListener(Event.COMPLETE, OnOpeningFinish);
 			LoadNextLv();
 		}
@@ -95,8 +128,8 @@
 		
 		function LoadLv(indextoLoad:int):void 
 		{
-			var path:String = _lvs[indextoLoad] + ".swf";
-			trace("load path:" + path);
+			var path:String =_currentLan+"\\"+_lvs[indextoLoad] + ".swf";
+			//trace("load LV path:" + path);
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, OnLvLoaded);
 			loader.load(new URLRequest(path));
@@ -105,10 +138,11 @@
 		
 		function OnLvLoaded(e:Event):void 
 		{
+			//trace("lv loaded");
 			var loaderInfo:LoaderInfo = e.currentTarget as LoaderInfo;
 			loaderInfo.removeEventListener(Event.COMPLETE, OnLvLoaded);
-			//var lvMC:BaseLv = loaderInfo.content as BaseLv;
 			var lvMC:MovieClip = loaderInfo.content as MovieClip;
+			lvMC.Lan = _currentLan;
 			ChangeScene(lvMC);
 			lvMC.addEventListener(lvMC.LevelEnd, LevelEnd);
 		}
@@ -120,14 +154,6 @@
 			if (lvMC.Result == lvMC.Success)
 			{
 				_farEndSuccessLvName = _currentLvName;
-				/*if (_farEndSuccessLvName == "lv1" || _farEndSuccessLvName == "lv2")
-				{
-					ShowLevelPass();
-				}
-				else
-				{
-				    LoadNextLv();
-				}*/
 				LoadNextLv();
 			}
 			else if (lvMC.Result == lvMC.Fail)
@@ -136,32 +162,9 @@
 			}
 		}
 		
-		/*function ShowLevelPass():void 
-		{
-			var levelPass:MovieClip;
-			if (_farEndSuccessLvName == "lv1")
-			{
-				levelPass = new MC_Pass1();
-			}
-			else if (_farEndSuccessLvName == "lv2")
-			{
-				levelPass = new MC_Pass2();
-			}
-			ChangeScene(levelPass);
-			levelPass.addEventListener(MouseEvent.CLICK, OnLevelPassClick);
-		}*/
-		
-		/*function OnLevelPassClick(e:Event):void 
-		{
-			var levelPass:MovieClip = e.currentTarget as MovieClip;
-			levelPass.removeEventListener(MouseEvent.CLICK, OnLevelPassClick);
-			this.removeChild(levelPass);
-			LoadNextLv();
-		}*/
-		
 		function LoadResultPage():void 
 		{
-			var path:String = "GameResult.swf";
+			var path:String = _currentLan+"\\"+"GameResult.swf";
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, OnResultLoaded);
 			loader.load(new URLRequest(path));
@@ -210,7 +213,9 @@
 		
 		function ResettoHome():void 
 		{
-			ChangeScene(new MC_Start());
+			var startPage:MC_Start = new MC_Start();
+			ChangeScene(startPage);
+			startPage.SetLanPage(_currentLan);
 			_currentLvName = null;
 			_farEndSuccessLvName = null;
 		}
@@ -218,7 +223,7 @@
 		override protected function removed_from_stage(e:Event):void 
 		{
 			super.removed_from_stage(e);
-			//this["btn_Start"].addEventListener(MouseEvent.CLICK, OnStartClick);
+			stage.removeEventListener(MouseEvent.CLICK, OnExitClick);
 		}
 	}
 	

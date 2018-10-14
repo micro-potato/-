@@ -7,12 +7,13 @@
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.geom.Point;
 	
 	
 	public class CP_RollingScroller extends BaseMovie {
 		
 		private var _values:Array = new Array();
-		private var _activeValue:String = "";
+		private var _activeValue:String = "I";
 		private var _inputValues:Array = new Array();
 		private var _inputHeight:int = 0;
 		private var _centerIndex:int = 0;
@@ -36,7 +37,7 @@
 		public function InitValues(value:Array):void 
 		{
 			_values = value;
-			trace(value);
+			//trace(value);
 			InitRollingScroller();
 		}
 		
@@ -117,17 +118,12 @@
 		
 		
 		function OnMouseDown(e:MouseEvent):void 
-		{
-			//_prevY = e.localY;
-			//_dragSprite.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
-			//_dragSprite.addEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
-			//_dragSprite.addEventListener(MouseEvent.MOUSE_OUT, OnMouseOut);
-			//_dragSprite.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
-			
+		{	
 			_prevY = e.stageY;
 			_dragSprite.removeEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
 			stage.addEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+			//stage.addEventListener(MouseEvent.MOUSE_OUT, OnMouseOut);
 		}
 		
 		function OnMouseUp(e:Event):void 
@@ -135,6 +131,17 @@
 			
 			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
+			//stage.removeEventListener(MouseEvent.MOUSE_OUT, OnMouseOut);
+			_dragSprite.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
+			CorrectionScrollResult();
+		}
+		
+		function OnMouseOut(e:Event):void 
+		{
+			trace("out");
+			stage.removeEventListener(MouseEvent.MOUSE_UP, OnMouseUp);
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, OnMouseMove);
+			//stage.removeEventListener(MouseEvent.MOUSE_OUT, OnMouseOut);
 			_dragSprite.addEventListener(MouseEvent.MOUSE_DOWN, OnMouseDown);
 			CorrectionScrollResult();
 		}
@@ -176,6 +183,7 @@
 			_inputSprite.y = dIndex * _inputHeight;
 			var valueIndex:int = _centerIndex - dIndex;
 			var targetValue:String = _inputValues[valueIndex];
+			//trace(targetValue);
 			if (targetValue != _activeValue)
 			{
 				if (targetValue == "C")

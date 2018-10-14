@@ -19,8 +19,15 @@
 		
 		private var _puzzleMC:MovieClip;
 		
+		private var _currentLan:String;
+		
 		public function Lv4Main() {
 			// constructor code
+		}
+		
+		public function set Lan(value:String):void 
+		{
+			_currentLan = value;
 		}
 		
 		public function get Result():String

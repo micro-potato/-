@@ -25,7 +25,7 @@
 		const H:String = "H";
 		const X:String = "X";
 		const C:String = "C";
-		const I:String = " ";
+		const I:String = "I";
 		
 		var _allGateArray:Array;
 		var _noHArray:Array;
@@ -127,12 +127,6 @@
 			if (_cp_cover.currentFrame == _cp_cover.totalFrames)//random ball appear at last frame 
 			{
 				_cp_cover.removeEventListener(Event.ENTER_FRAME, ListenRbValue);
-				//setTimeout(function(){var rb1Value:int = _cp_cover["rb_1"].currentFrame;
-				//var rb2Value:int = _cp_cover["rb_2"].currentFrame;
-				//Lv4ResultValue.GetInstance().value1 = rb1Value;
-				//Lv4ResultValue.GetInstance().value2=rb2Value; 
-				//trace("lv4 set value:" + Lv4ResultValue.GetInstance().value1+"----------" + Lv4ResultValue.GetInstance().value2);
-				//}, 10);
 				setTimeout(function(){
 					var rbValues:SharedObject = SharedObject.getLocal("game","/");
 					rbValues.data.Value1 = _cp_cover["rb_1"].currentFrame;

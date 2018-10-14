@@ -36,9 +36,16 @@ package com.mc
 		protected var _isHintatStart:Boolean;
 		protected var _isCallHintAble:Boolean = true;
 		
+		private var _currentLan:String;
+		
 		public function BaseLv() 
 		{
 			
+		}
+		
+		public function set Lan(value:String):void 
+		{
+			_currentLan = value;
 		}
 		
 		public function get Result():String
@@ -77,7 +84,7 @@ package com.mc
 		
 		private function LoadRoomScence():void 
 		{
-			var path:String = "Room.swf";
+			var path:String = _currentLan+"\\Room.swf";
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, OnRoomScenceLoad);
 			loader.load(new URLRequest(path));

@@ -9,9 +9,9 @@ package com.cp
 	 */
 	public class CP_SwitchGate extends BaseMovie
 	{
-		private var _value1:String = "OFF";
-		private var _value2:String = "ON";
-		private var _initValue:String = "OFF";
+		private var _value1:String = "Off";
+		private var _value2:String = "On";
+		private var _initValue:String = "Off";
 		private var _isActive:Boolean = false;
 		
 		public const ValueChanged:String = "ValueChanged";

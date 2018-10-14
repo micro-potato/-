@@ -1,6 +1,7 @@
 package com.mc 
 {
 	import com.BaseMovie;
+	import com.EventMaster;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -20,6 +21,8 @@ package com.mc
 		protected var _hasPwd:Boolean = false;
 		
 		protected var _mc_pwd:MovieClip;
+		
+		private var _homeBtn:MovieClip;
 		public function BasePuzzle() 
 		{
 			
@@ -43,6 +46,9 @@ package com.mc
 				this["btn_hint"].buttonMode = true;
 				this["btn_hint"].addEventListener(MouseEvent.CLICK, OnHintBtnClick);
 			}
+			
+			_homeBtn = this["btn_Home"];
+			_homeBtn.addEventListener(MouseEvent.CLICK, OnHomeClick);
 		}
 		
 		function OnPwdBtnClick(e:Event):void 
@@ -81,6 +87,11 @@ package com.mc
 			this.dispatchEvent(new Event(this.PuzzleEnd));
 		}
 		
+		function OnHomeClick(e:Event):void 
+		{
+			EventMaster.getInstance().dispatchEvent(new Event(EventMaster.OnHomeClick));
+		}
+		
 		override protected function removed_from_stage(e:Event):void 
 		{
 			super.removed_from_stage(e);
@@ -92,6 +103,8 @@ package com.mc
 			{
 				this["btn_hint"].removeEventListener(MouseEvent.CLICK, OnHintBtnClick);
 			}
+			
+			_homeBtn.removeEventListener(MouseEvent.CLICK, OnHomeClick);
 		}
 		
 	}

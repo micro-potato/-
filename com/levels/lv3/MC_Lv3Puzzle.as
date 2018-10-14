@@ -53,24 +53,7 @@
 		}
 		
 		function OnStart(e:Event):void 
-		{
-			//test
-			//_result = this.Success;
-			//TriggerResult();
-			//return;
-			
-			//var isSuccess:Boolean = _ionTrap.CheckAnswer();
-			////trace("isSuccess:" + isSuccess);
-			//if (!isSuccess)
-			//{
-				//_ionTrap.ClearInput();
-			//}
-			//else
-			//{
-				//_result = this.Success;
-				//TriggerResult();
-			//}
-			
+		{	
 			SetPlayedSteps(_playedSteps + 1);
 			var isSuccess:Boolean = _ionTrap.CheckAnswer();
 			//trace("isSuccess:" + isSuccess);

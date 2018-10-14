@@ -2,6 +2,8 @@ package com
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
+
 	/**
 	 * ...
 	 * @author ...
@@ -26,9 +28,12 @@ package com
 			
 		}
 		
+		
+		
 		protected function removed_from_stage(e:Event):void 
 		{	
 			this.removeEventListener(Event.REMOVED_FROM_STAGE, removed_from_stage);
+			
 		}
 		
 	}

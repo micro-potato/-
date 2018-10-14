@@ -70,7 +70,6 @@ package com.cp
 				_myAnswer.push((_groupArray[i] as CP_OperGroup).Calc())
 				//trace("group" + i + " calced");
 			}
-			//return _myAnswer;
 		}
 		
 		function GetInputAnswer():Array 

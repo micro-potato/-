@@ -24,7 +24,7 @@
 		const H:String = "H";
 		const X:String = "X";
 		const C:String = "C";
-		const I:String = " ";
+		const I:String = "I";
 		
 		var _allGateArray:Array;
 		var _noHArray:Array;

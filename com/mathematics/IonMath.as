@@ -9,7 +9,7 @@ package com.mathematics
 		const H:String = "H";
 		const X:String = "X";
 		const C:String = "C";
-		const I:String = " ";
+		const I:String = "I";
 		
 		public var _hGate:Array;
 		public var _xGate:Array;
@@ -56,6 +56,14 @@ package com.mathematics
 			var oper2Matrix:Array;
 			var operResult:Array;
 			var result:Array;
+			
+			//trace("to calc:" + oper1 + "===" + oper2);
+			//I&Empty Oper
+			if (oper1 == I && oper2 == I)
+			{
+				trace("empty oper");
+				return savedResult;
+			}
 			
 			//No C oper
 			if (oper1 != C && oper2 != C)

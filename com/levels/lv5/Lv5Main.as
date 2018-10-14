@@ -16,8 +16,15 @@
 		
 		private var _puzzleMC:BasePuzzle;
 		
+		private var _currentLan:String;
+		
 		public function Lv5Main() {
 			// constructor code
+		}
+		
+		public function set Lan(value:String):void 
+		{
+			_currentLan = value;
 		}
 		
 		public function get Result():String

@@ -13,7 +13,7 @@ package com.cp
 		const H:String = "H";
 		const X:String = "X";
 		const C:String = "C";
-		const I:String = " ";
+		const I:String = "I";
 		
 		var _allGateArray:Array;
 		var _initOperArray:Array;
@@ -45,27 +45,27 @@ package com.cp
 		function get Oper1():String 
 		{
 			var value:String = _operGate1.ActiveValue;
-			if (value == "")
-			{
-				value = I;
-			}
+			//if (value == "")
+			//{
+				//value = I;
+			//}
 			return value;
 		}
 		
 		function get Oper2():String 
 		{
 			var value:String = _operGate2.ActiveValue;
-			if (value == "")
-			{
-				value = I;
-			}
+			//if (value == "")
+			//{
+				//value = I;
+			//}
 			return value;
 		}
 		
-		function get SwitchGate():String 
-		{
-			return null;
-		}
+		//function get SwitchGate():String 
+		//{
+			//return null;
+		//}
 		
 		public function set InitValue(value:Array):void
 		{
@@ -159,7 +159,7 @@ package com.cp
 			_switchGateValue = _switchGate.ActiveValue;
 			var savedOper1:String = _operGate1.ActiveValue;
 			var savedOper2:String = _operGate2.ActiveValue;
-			if (_switchGateValue == "ON")
+			if (_switchGateValue == "On")
 			{
 				_operGate1.ReSetValues(_allGateArray);
 				_operGate2.ReSetValues(_allGateArray);
@@ -179,6 +179,7 @@ package com.cp
 		
 		function Calc():Array
 		{
+			trace("to calc:" + Oper1 + "===" + Oper2);
 			var result:Array = calculator.CalcaGroup(_savedResult, Oper1, Oper2);
 			UpdateKey(result);
 			_savedResult = result;

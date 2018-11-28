@@ -18,6 +18,7 @@
 		private var _result:String;
 		
 		private var _puzzleMC:MovieClip;
+		private var _puzzleHintMC:MovieClip;
 		
 		private var _currentLan:String;
 		
@@ -39,6 +40,7 @@
 		{
 			super.Init();
 			var mc_openning:MC_Openning = new MC_Openning();
+			_puzzleHintMC = new MC_PuzzleHint();
 			this.addChild(mc_openning);
 			mc_openning.addEventListener(MC_Openning.ChoiceMade, OnChoiceMade);
 		}
@@ -48,9 +50,8 @@
 			var mc_openning:MC_Openning = e.currentTarget as MC_Openning;
 			if (mc_openning.IsSave)
 			{
-				_puzzleMC = new Lv4Puzzle();
-				this.addChild(_puzzleMC);
-				_puzzleMC.addEventListener(_puzzleMC.PuzzleEnd, OnPuzzleEnd);
+				//LoadPuzzle();
+				LoadIntro();
 			}
 			else
 			{
@@ -58,6 +59,26 @@
 				this.addChild(notSaveMC);
 				notSaveMC.addEventListener(MouseEvent.CLICK, OnNotSaveClick);
 			}
+		}
+		
+		function LoadIntro():void 
+		{
+			this.addChild(_puzzleHintMC);
+			_puzzleHintMC.addEventListener(MouseEvent.CLICK, OnHintClick);
+		}
+		
+		function OnHintClick(e:Event):void 
+		{
+			_puzzleHintMC.removeEventListener(MouseEvent.CLICK, OnHintClick);
+			this.removeChild(_puzzleHintMC);
+			LoadPuzzle();
+		}
+		
+		function LoadPuzzle():void 
+		{
+			_puzzleMC = new Lv4Puzzle();
+			this.addChild(_puzzleMC);
+			_puzzleMC.addEventListener(_puzzleMC.PuzzleEnd, OnPuzzleEnd);
 		}
 		
 		function OnNotSaveClick(e:Event):void 

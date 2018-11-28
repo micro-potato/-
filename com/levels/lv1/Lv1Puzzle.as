@@ -82,8 +82,8 @@
 			if (_coin1Value != _coin2Value)
 			{
 				_result = this.Success;
-				//TriggerResult();
-				ShowSuccessMC();
+				ShowInfoPage();
+				//ShowSuccessMC();
 			}
 			else
 			{
@@ -91,6 +91,21 @@
 				this.addChild(mc_retry);
 				mc_retry["btn_retry"].addEventListener(MouseEvent.CLICK, OnRetry);
 			}
+		}
+		
+		function ShowInfoPage():void 
+		{
+			var introPage:MovieClip = new MC_Intro();
+			introPage.addEventListener(MouseEvent.CLICK, OnIntroClick);
+			this.addChild(introPage);
+		}
+		
+		function OnIntroClick(e:Event):void 
+		{
+			var introPage:MovieClip = e.currentTarget as MovieClip;
+			introPage.removeEventListener(MouseEvent.CLICK, OnIntroClick);
+			this.removeChild(introPage);
+			ShowSuccessMC();
 		}
 		
 		function ShowSuccessMC():void 

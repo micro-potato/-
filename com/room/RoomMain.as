@@ -27,6 +27,11 @@
 			_mc_room.DisableHit();
 		}
 		
+		public function ShowDrTip():void 
+		{
+			_mc_room.ShowDrTip();
+		}
+		
 		override protected function removed_from_stage(e:Event):void 
 		{
 			super.removed_from_stage(e);

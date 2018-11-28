@@ -42,7 +42,7 @@
 			ChangeScene(_startMC);
 			
 			//test
-			//LoadLv(2);
+			//LoadLv(4);
 		}
 		
 		function OnExitClick(e:MouseEvent):void 

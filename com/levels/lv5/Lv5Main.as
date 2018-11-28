@@ -15,6 +15,7 @@
 		private var _result:String;
 		
 		private var _puzzleMC:BasePuzzle;
+		private var _puzzleHintMC:MovieClip;
 		
 		private var _currentLan:String;
 		
@@ -35,6 +36,7 @@
 		override protected function Init():void 
 		{
 			super.Init();
+			_puzzleHintMC = new MC_PuzzleHint();
 			var choiceMC:MC_Choice = new MC_Choice();
 			this.addChild(choiceMC);
 			choiceMC.addEventListener(MC_Choice.ChoiceMade, OnChoiceMade);
@@ -45,15 +47,36 @@
 			var choiceMC:MC_Choice = e.currentTarget as MC_Choice;
 			if (choiceMC.IsChallenge)
 			{
-				_puzzleMC = new Lv5Puzzle();
-				this.addChild(_puzzleMC);
-				_puzzleMC.addEventListener(_puzzleMC.PuzzleEnd, OnPuzzleEnd);
+				//_puzzleMC = new Lv5Puzzle();
+				//this.addChild(_puzzleMC);
+				//_puzzleMC.addEventListener(_puzzleMC.PuzzleEnd, OnPuzzleEnd);
+				LoadIntro();
 			}
 			else
 			{
 				this._result = Fail;
 				this.dispatchEvent(new Event(this.LevelEnd));
 			}
+		}
+		
+		function LoadIntro():void 
+		{
+			this.addChild(_puzzleHintMC);
+			_puzzleHintMC.addEventListener(MouseEvent.CLICK, OnHintClick);
+		}
+		
+		function OnHintClick(e:Event):void 
+		{
+			_puzzleHintMC.removeEventListener(MouseEvent.CLICK, OnHintClick);
+			this.removeChild(_puzzleHintMC);
+			LoadPuzzle();
+		}
+		
+		function LoadPuzzle():void 
+		{
+			_puzzleMC = new Lv5Puzzle();
+			this.addChild(_puzzleMC);
+			_puzzleMC.addEventListener(_puzzleMC.PuzzleEnd, OnPuzzleEnd);
 		}
 		
 		function OnPuzzleEnd(e:Event):void 

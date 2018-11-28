@@ -19,7 +19,7 @@ package com.mc
 		public const Success:String = "Success";
 		public const Fail:String = "Fail";
 		
-		protected const TimeLimit:String = "TimeLimit";
+		//protected const TimeLimit:String = "TimeLimit";
 		protected const StepLimit:String = "StepLimit";
 		
 		protected var _itemstoFind:Array;
@@ -27,14 +27,17 @@ package com.mc
 		protected var _limitType:String;
 		protected var _hint:MovieClip;
 		protected var _foundMC:MovieClip;
+		protected var _mc_intro:MovieClip;
 		protected var _result:String;
 		
 		protected var _room:MovieClip;
 		protected var _puzzle:MovieClip;
 		
 		protected var _isInRoom:Boolean;
+		protected var _isShowDrHint = false;
 		protected var _isHintatStart:Boolean;
 		protected var _isCallHintAble:Boolean = true;
+		protected var _isShowIntroBeforePuzzle = true;
 		
 		private var _currentLan:String;
 		
@@ -84,6 +87,7 @@ package com.mc
 		
 		private function LoadRoomScence():void 
 		{
+			trace("LV lan:" + _currentLan);
 			var path:String = _currentLan+"\\Room.swf";
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, OnRoomScenceLoad);
@@ -98,6 +102,7 @@ package com.mc
 			this.addChild(_room);
 			_room.addEventListener(ItemClickEvent.ItemClicked, OnItemClick);
 			_room.addEventListener("HintCalled", OnHintCalled);
+			trace("Is show hint:" + _isHintatStart);
 			if (_isHintatStart)
 			{
 				LoadHint();
@@ -105,6 +110,10 @@ package com.mc
 			if (!_isCallHintAble)
 			{
 				_room.DisableHit();
+			}
+			if (_isShowDrHint)
+			{
+				_room.ShowDrTip();
 			}
 		}
 		
@@ -140,9 +149,29 @@ package com.mc
 				trace(itemName+" found");
 				if (_itemsFound.length == _itemstoFind.length)//find all items in this level
 				{
-					LoadPuzzle();
+					if (_isShowIntroBeforePuzzle)
+					{
+						LoadIntro();
+					}
+					else
+					{
+						LoadPuzzle();
+					}
 				}
 			}
+		}
+		
+		function LoadIntro():void 
+		{
+			this.addChild(_mc_intro);
+			_mc_intro.addEventListener(MouseEvent.CLICK, OnIntroClick);
+		}
+		
+		function OnIntroClick(e:Event):void 
+		{
+			_mc_intro.removeEventListener(MouseEvent.CLICK, OnIntroClick);
+			this.removeChild(_mc_intro);
+			LoadPuzzle();
 		}
 		
 		function LoadPuzzle():void 

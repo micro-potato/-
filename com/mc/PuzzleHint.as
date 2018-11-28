@@ -28,10 +28,32 @@
 		function OnPrevClick(e:Event):void 
 		{
 			e.stopPropagation();
-			if (this.currentFrame == 2)
+			if (this.currentFrame != 1)
 			{
 				this.prevFrame();
+			}
+			else
+			{
+				this.gotoAndStop(this.totalFrames);
+			}
+			UpdateBtns();
+		}
+		
+		function UpdateBtns():void 
+		{
+			if (this.currentFrame == 1)
+			{
 				this._prevBtn.visible = false;
+				this._nextBtn.visible = true;
+			}
+			else if (this.currentFrame == this.totalFrames)
+			{
+				this._prevBtn.visible = true;
+				this._nextBtn.visible = false;
+			}
+			else
+			{
+				this._prevBtn.visible = true;
 				this._nextBtn.visible = true;
 			}
 		}
@@ -39,12 +61,15 @@
 		function OnNextClick(e:Event):void 
 		{
 			e.stopPropagation();
-			if (this.currentFrame == 1)
+			if (this.currentFrame != totalFrames)
 			{
 				this.nextFrame();
-				this._prevBtn.visible = true;
-				this._nextBtn.visible = false;
 			}
+			else
+			{
+				this.gotoAndStop(1);
+			}
+			UpdateBtns();
 		}
 		
 		override protected function removed_from_stage(e:Event):void 

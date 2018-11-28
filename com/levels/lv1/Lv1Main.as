@@ -19,12 +19,15 @@
 		override protected function Init():void 
 		{
 			_isInRoom = true;
+			_isShowDrHint = true;
 			_isHintatStart = false;
-			_isCallHintAble = false;
+			_isCallHintAble = true;
+			_isShowIntroBeforePuzzle = false;
 			_itemstoFind = ["Cat"];
 			_hint = new MC_Hint();
 			_puzzle = new Lv1Puzzle();
 			_foundMC = new MC_Found();
+			_mc_intro = new MC_Intro();
 			super.Init();
 		}
 		

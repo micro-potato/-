@@ -20,6 +20,7 @@
 			_hint = new MC_Hint();
 			_puzzle = new MC_Lv2Puzzle();
 			_foundMC = new MC_Found();
+			_mc_intro = new MC_PuzzleHint();
 			
 			
 			super.Init();

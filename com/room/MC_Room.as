@@ -120,6 +120,20 @@
 			EventMaster.getInstance().dispatchEvent(new Event(EventMaster.OnHomeClick));
 		}
 		
+		public function ShowDrTip()
+		{
+			var mcTip:MovieClip = new MC_DrTip();
+			this.addChild(mcTip);
+			mcTip.addEventListener(MouseEvent.CLICK, OnTipClick);
+		}
+		
+		function OnTipClick(e:Event):void 
+		{
+			var mcTip:MovieClip = e.currentTarget as MovieClip;
+			mcTip.removeEventListener(MouseEvent.CLICK, OnTipClick);
+			this.removeChild(mcTip);
+		}
+		
 		override protected function removed_from_stage(e:Event):void 
 		{
 			super.removed_from_stage(e);
